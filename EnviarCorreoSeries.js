@@ -59,7 +59,7 @@ router.post("/api/utilsSeries", async (req, res) => {
       console.log(`📨 Enviando resumen a ${empresa} (${correos.join(", ")})...`);
 
       await resendClient.emails.send({
-        from: "ClaroCorp+ <notificaciones@clarocorp.pe>",
+        from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
         to: correos,
         subject: `📊 Resumen de estados de tus equipos - ${empresa}`,
         html,
