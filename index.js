@@ -1,9 +1,14 @@
 const express = require("express");
 const app = express();
-const enviarCorreoSeries = require("./enviarCorreoSeries");
+const enviarCorreoSeries = require("./EnviarCorreoSeries");
 
 app.use(express.json());
 app.use(enviarCorreoSeries);
+
+// Ruta raíz para verificar si el servidor está vivo
+app.get("/", (req, res) => {
+  res.send("✅ API Notificador-Series activa");
+});
 
 // Puerto para Render
 const PORT = process.env.PORT || 3000;
