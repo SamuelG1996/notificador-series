@@ -61,7 +61,7 @@ router.post("/api/utilsSeries", async (req, res) => {
       await resendClient.emails.send({
         from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
         to: correos,
-        subject: `📊 Resumen de estados de tus equipos - ${empresa}`,
+        subject: `📊 Resumen de estados de materiales seriados - ${empresa}`,
         html,
       });
 
