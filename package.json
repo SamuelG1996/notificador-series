@@ -10,7 +10,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "resend": "^4.6.0",
-    "cors": "^2.8.5",
+    "cors": "^2.8.5", // Este comentario solo es para forzar Commit en Render
     "@supabase/supabase-js": "^2.39.6"
   }
 }
