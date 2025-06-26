@@ -16,7 +16,13 @@ function createTablaHTMLSeries(empresa, registros) {
   }
   const columnas = [...soporteEstados];
 
-  let html = `<h3>Resumen de estado de tus equipos - ${empresa}</h3>`;
+  let html = `
+    <p style="margin-bottom: 8px;">Estimado equipo de <strong>${empresa}</strong>,</p>
+    <p style="margin-top: 0; margin-bottom: 18px; font-size: 14px;">
+      A continuación, les compartimos el resumen actualizado del estado de sus equipos registrados en el portal.
+    </p>
+  `;
+    // 🧾 Tabla de estados
   html += `<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; font-family: Arial, sans-serif;">`;
   html += `<tr><th>Estado Contrata</th>${columnas.map(e => `<th>${e}</th>`).join("")}</tr>`;
 
@@ -29,7 +35,8 @@ function createTablaHTMLSeries(empresa, registros) {
     html += `</tr>`;
   }
 
-  html += `</table><br><p>📅 Revisión al ${new Date().toLocaleDateString()}</p><p>👉 Por favor, revisa el portal para más información. Todos los registros deben tener un estado.</p>`;
+  html += `</table><br><p>📅 Revisión al ${new Date().toLocaleDateString()}</p>
+  <p>👉 Por favor, revisa el portal para más información. Es importante que todos los registros cuenten con un estado.</p>`;
   return html;
 }
 
