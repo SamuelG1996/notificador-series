@@ -17,11 +17,13 @@ router.post("/api/utilsSeries", async (req, res) => {
   try {
     console.log("📥 Iniciando notificación de series...");
 
-    // 📦 Obtener todas las series
-    const { data: registros, error } = await supabase
-      .from("series_contrata")
-      .select("*");
-
+ // 📦 Obtener todas las series (hasta 20000 registros)
+const { data: registros, error } = await supabase
+  .from("series_contrata")
+  .select("*")
+  .order("empresa", { ascending: true }) // Opcional
+  .range(0, 19999);
+    
     if (error) throw new Error("Error obteniendo registros: " + error.message);
 
     // 🧠 Agrupar por empresa
@@ -51,6 +53,12 @@ router.post("/api/utilsSeries", async (req, res) => {
         console.warn(`⚠️ No hay correos registrados para: ${empresa}`);
         continue;
       }
+
+    // ⚠️ Validar si hay registros para esa empresa
+    if (registrosEmpresa.length === 0) {
+      console.warn(`⚠️ Empresa ${empresa} no tiene registros. Se omitirá el envío.`);
+      continue;
+    }
 
       // 📄 Generar HTML del resumen
       const html = createTablaHTMLSeries(empresa, registrosEmpresa);
