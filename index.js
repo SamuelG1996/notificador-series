@@ -1,7 +1,11 @@
 const express = require("express");
+const cors = require("cors"); // 👈 Importa el middleware CORS
+
 const app = express();
 const enviarCorreoSeries = require("./EnviarCorreoSeries");
-// Este es un cambio mínimo para forzar redeploy
+
+// Aplica CORS para todas las rutas
+app.use(cors()); // 👈 Esto soluciona el error CORS
 app.use(express.json());
 app.use(enviarCorreoSeries);
 
