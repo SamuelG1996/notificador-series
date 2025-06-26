@@ -17,14 +17,30 @@ router.post("/api/utilsSeries", async (req, res) => {
   try {
     console.log("📥 Iniciando notificación de series...");
 
- // 📦 Obtener todas las series (hasta 20000 registros)
-const { data: registros, error } = await supabase
-  .from("series_contrata")
-  .select("*")
-  .order("empresa", { ascending: true }) // Opcional
-  .range(0, 19999);
-    
-    if (error) throw new Error("Error obteniendo registros: " + error.message);
+    // 📦 Obtener todas las series (en bloques de 1000)
+    const registros = [];
+    const paso = 1000;
+    let desde = 0;
+    let continuar = true;
+
+    while (continuar) {
+      const { data, error } = await supabase
+        .from("series_contrata")
+        .select("*")
+        .range(desde, desde + paso - 1);
+
+      if (error) throw new Error("Error obteniendo registros: " + error.message);
+
+      if (!data || data.length === 0) {
+        continuar = false;
+      } else {
+        registros.push(...data);
+        desde += paso;
+        if (data.length < paso) continuar = false;
+      }
+    }
+
+    console.log(`📊 Total de registros obtenidos: ${registros.length}`);
 
     // 🧠 Agrupar por empresa
     const agrupados = {};
@@ -36,6 +52,12 @@ const { data: registros, error } = await supabase
 
     // 🔁 Por cada empresa: obtener correos, generar HTML y enviar
     for (const [empresa, registrosEmpresa] of Object.entries(agrupados)) {
+      // ⚠️ Validar si hay registros para esa empresa
+      if (registrosEmpresa.length === 0) {
+        console.warn(`⚠️ Empresa ${empresa} no tiene registros. Se omitirá el envío.`);
+        continue;
+      }
+
       // 📧 Obtener correos de contacto_empresa
       const { data: contactos, error: errorContacto } = await supabase
         .from("contacto_empresa")
@@ -47,18 +69,12 @@ const { data: registros, error } = await supabase
         continue;
       }
 
-      const correos = contactos.map((c) => c.correo_contacto.trim()).filter(Boolean);
+      const correos = contactos.map(c => c.correo_contacto.trim()).filter(Boolean);
 
       if (correos.length === 0) {
         console.warn(`⚠️ No hay correos registrados para: ${empresa}`);
         continue;
       }
-
-    // ⚠️ Validar si hay registros para esa empresa
-    if (registrosEmpresa.length === 0) {
-      console.warn(`⚠️ Empresa ${empresa} no tiene registros. Se omitirá el envío.`);
-      continue;
-    }
 
       // 📄 Generar HTML del resumen
       const html = createTablaHTMLSeries(empresa, registrosEmpresa);
