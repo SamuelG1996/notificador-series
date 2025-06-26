@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const enviarCorreoSeries = require("./EnviarCorreoSeries");
-
+// Este es un cambio mínimo para forzar redeploy
 app.use(express.json());
 app.use(enviarCorreoSeries);
 
