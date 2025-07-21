@@ -1,10 +1,10 @@
-import { createClient } from '@supabase/supabase-js';
-import { Resend } from 'resend';
+const { createClient } = require('@supabase/supabase-js');
+const { Resend } = require('resend');
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
     const { data: series, error } = await supabase
       .from('series_contrata')
@@ -62,7 +62,6 @@ export default async function handler(req, res) {
     filas.sort((a, b) => b.total - a.total);
 
     const htmlTable = `
-      <h3>Resumen Global de Conciliación de Series</h3>
       <p>Revisión al ${new Date().toLocaleDateString('es-PE')}</p>
       <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Arial;">
         <thead style="background:#f0f0f0;">
@@ -88,12 +87,12 @@ export default async function handler(req, res) {
       </table>
     `;
 
-    const destinatarios = ['admin1@claro.com', 'soporte@claro.com', 'jefa@claro.com']; // Reemplaza por correos reales
+    const destinatarios = ['guardias@hitss.com', 'samuelguardiabautista@gmail.com']; // Actualízalo si es necesario
 
     await resend.emails.send({
       from: 'Resumen Series <notificaciones@clarocorp.com>',
       to: destinatarios,
-      subject: 'Resumen Global de Conciliación de Series',
+      subject: 'Resumen de estados de Conciliación de Inventario',
       html: htmlTable
     });
 
@@ -103,4 +102,4 @@ export default async function handler(req, res) {
     console.error("Error al enviar resumen:", err);
     res.status(500).json({ error: err.message });
   }
-}
+};
