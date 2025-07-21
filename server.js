@@ -9,7 +9,7 @@ const { Resend } = require("resend");
 app.use(express.json());
 
 // 🔔 Ruta POST principal para enviar correos (tu endpoint actual)
-app.post("/utilsSeries", async (req, res) => {
+app.post("/api/utilsSeries", async (req, res) => {
   try {
     const { centro } = req.body;
 
@@ -52,7 +52,7 @@ app.get("/", (req, res) => {
 });
 
 // 📨 NUEVA ruta para enviar resumen global de conciliación
-app.post("/utilsSeriesReporteClaro", utilsSeriesReporteClaro);
+app.post("/api/utilsSeriesReporteClaro", utilsSeriesReporteClaro);
 
 // 🛠 Levanta el servidor
 app.listen(port, () => {
