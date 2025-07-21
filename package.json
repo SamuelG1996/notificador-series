@@ -2,10 +2,10 @@
   "name": "notificador-series",
   "version": "1.0.0",
   "description": "Servicio de envío de correos para series_contrata",
-  "main": "server.js",
+  "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
