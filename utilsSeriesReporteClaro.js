@@ -66,7 +66,7 @@ module.exports = async function handler(req, res) {
       <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Arial;">
         <thead style="background:#f0f0f0;">
           <tr>
-            <th>Empresa</th>
+            <th>EMPRESA</th>
             <th>CONCILIADO</th>
             <th>EN REVISIÓN</th>
             <th>PENDIENTE</th>
