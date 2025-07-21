@@ -1,22 +1,31 @@
-const { createClient } = require('@supabase/supabase-js');
-const { Resend } = require('resend');
+const express = require("express");
+const router = express.Router();
+const { createClient } = require("@supabase/supabase-js");
+const { Resend } = require("resend");
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-const resend = new Resend(process.env.RESEND_API_KEY);
+// 🔐 Conexión a Supabase
+const supabase = createClient(
+  "https://bsrtuievwjtzwejuxqee.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzcnR1aWV2d2p0endlanV4cWVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1NTEyNjYsImV4cCI6MjA2NDEyNzI2Nn0.A9tCs-Zi-7jw5LUFs7ViIR2vHb9tNMj6c7YeeNOdmWI"
+);
 
-module.exports = async function handler(req, res) {
+// 💌 Cliente Resend
+const resend = new Resend("re_dHbT7BFx_LTwQP6eqY86nGCY29NPTGYJk");
+
+// 📩 Ruta POST
+router.post("/api/utilsSeriesReporteClaro", async (req, res) => {
   try {
     const { data: series, error } = await supabase
-      .from('series_contrata')
-      .select('codigo, empresa, estado_contrata, estado_soporte');
+      .from("series_contrata")
+      .select("codigo, empresa, estado_contrata, estado_soporte");
 
     if (error) throw error;
 
-    const codigosUnicos = [...new Set(series.map(s => s.codigo))];
+    const codigosUnicos = [...new Set(series.map((s) => s.codigo))];
     const { data: precios, error: precioError } = await supabase
-      .from('material_precios')
-      .select('material, precio, fecha_data')
-      .in('material', codigosUnicos);
+      .from("material_precios")
+      .select("material, precio, fecha_data")
+      .in("material", codigosUnicos);
 
     if (precioError) throw precioError;
 
@@ -29,23 +38,20 @@ module.exports = async function handler(req, res) {
     }
 
     const resumen = {};
-
     for (const serie of series) {
-      const empresa = serie.empresa || '-';
+      const empresa = serie.empresa || "-";
       const precio = preciosPorCodigo[serie.codigo] || 0;
       if (precio === 0) continue;
 
-      if (!resumen[empresa]) {
-        resumen[empresa] = { conc: 0, rev: 0, pend: 0 };
-      }
+      if (!resumen[empresa]) resumen[empresa] = { conc: 0, rev: 0, pend: 0 };
 
       const { estado_contrata, estado_soporte } = serie;
-      const soporte = (estado_soporte || '').toUpperCase();
-      const contrataVacia = !estado_contrata || estado_contrata.trim() === '';
+      const soporte = (estado_soporte || "").toUpperCase();
+      const contrataVacia = !estado_contrata || estado_contrata.trim() === "";
 
-      if (soporte === 'VALIDADO') resumen[empresa].conc += precio;
+      if (soporte === "VALIDADO") resumen[empresa].conc += precio;
       else if (
-        ['PENDIENTE', 'EN REVISION', 'FALTANTE'].includes(soporte) &&
+        ["PENDIENTE", "EN REVISION", "FALTANTE"].includes(soporte) &&
         !contrataVacia
       ) resumen[empresa].rev += precio;
       else resumen[empresa].pend += precio;
@@ -56,13 +62,13 @@ module.exports = async function handler(req, res) {
       conc: val.conc,
       rev: val.rev,
       pend: val.pend,
-      total: val.conc + val.rev + val.pend
+      total: val.conc + val.rev + val.pend,
     }));
 
     filas.sort((a, b) => b.total - a.total);
 
     const htmlTable = `
-      <p>Revisión al ${new Date().toLocaleDateString('es-PE')}</p>
+      <p>Revisión al ${new Date().toLocaleDateString("es-PE")}</p>
       <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Arial;">
         <thead style="background:#f0f0f0;">
           <tr>
@@ -74,32 +80,48 @@ module.exports = async function handler(req, res) {
           </tr>
         </thead>
         <tbody>
-          ${filas.map(row => `
+          ${filas
+            .map(
+              (row) => `
             <tr>
               <td><strong>${row.empresa}</strong></td>
-              <td>S/ ${row.conc.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</td>
-              <td>S/ ${row.rev.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</td>
-              <td>S/ ${row.pend.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</td>
-              <td><strong>S/ ${row.total.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong></td>
+              <td>S/ ${row.conc.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</td>
+              <td>S/ ${row.rev.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</td>
+              <td>S/ ${row.pend.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</td>
+              <td><strong>S/ ${row.total.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</strong></td>
             </tr>
-          `).join('')}
+          `
+            )
+            .join("")}
         </tbody>
       </table>
     `;
 
-    const destinatarios = ['guardias@hitss.com', 'samuelguardiabautista@gmail.com']; // Actualízalo si es necesario
+    const destinatarios = [
+      "guardias@hitss.com",
+      "samuelguardiabautista@gmail.com",
+    ];
 
     await resend.emails.send({
-      from: 'Resumen Series <notificaciones@clarocorp.com>',
+      from: "Resumen Series <notificaciones@clarocorp.com>",
       to: destinatarios,
-      subject: 'Resumen de estados de Conciliación de Inventario',
-      html: htmlTable
+      subject: "Resumen de estados de Conciliación de Inventario",
+      html: htmlTable,
     });
 
     res.status(200).json({ message: "Correo enviado correctamente." });
-
   } catch (err) {
     console.error("Error al enviar resumen:", err);
     res.status(500).json({ error: err.message });
   }
-};
+});
+
+module.exports = router;
