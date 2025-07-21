@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
   res.status(200).send("Servidor de notificaciones operativo.");
 });
 
-// 📨 NUEVA ruta para enviar resumen global de conciliación de series
+// 📨 NUEVA ruta para enviar resumen global de conciliación
 app.post("/utilsSeriesReporteClaro", utilsSeriesReporteClaro);
 
 // 🛠 Levanta el servidor
