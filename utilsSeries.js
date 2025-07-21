@@ -54,7 +54,7 @@ function createTablaHTMLSeries(empresa, registros) {
   html += `</tr>`;
 
   html += `</table><br><p>📅 Revisión al ${new Date().toLocaleDateString("es-PE")}</p>`;
-  <p>👉 Por favor, revisa el portal para más información. Es importante que todos los registros cuenten con un estado.</p>`;
+  `<p>👉 Por favor, revisa el portal para más información. Es importante que todos los registros cuenten con un estado.</p>`;
   return html;
 }
 
