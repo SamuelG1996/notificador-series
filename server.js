@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const utilsSeriesReporteClaro = require('./utilsSeriesReporteClaro');
 const port = process.env.PORT || 3000;
 const { createTablaHTMLSeries } = require("./utilsSeries"); // tu módulo
 const { Resend } = require("resend");
@@ -49,6 +50,9 @@ app.get("/ping", (req, res) => {
 app.get("/", (req, res) => {
   res.status(200).send("Servidor de notificaciones operativo.");
 });
+
+// 📨 NUEVA ruta para enviar resumen global de conciliación de series
+app.post("/utilsSeriesReporteClaro", utilsSeriesReporteClaro);
 
 // 🛠 Levanta el servidor
 app.listen(port, () => {
