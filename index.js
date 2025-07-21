@@ -1,20 +1,26 @@
 const express = require("express");
-const cors = require("cors"); // 👈 Importa el middleware CORS
+const cors = require("cors");
 
 const app = express();
-const enviarCorreoSeries = require("./EnviarCorreoSeries");
 
-// Aplica CORS para todas las rutas
-app.use(cors()); // 👈 Esto soluciona el error CORS
+// 👇 Tus dos módulos de rutas
+const enviarCorreoSeries = require("./EnviarCorreoSeries"); // maneja /api/utilsSeries
+const utilsSeriesReporteClaro = require("./utilsSeriesReporteClaro"); // maneja /api/utilsSeriesReporteClaro
+
+// 🛡️ Middlewares
+app.use(cors());
 app.use(express.json());
-app.use(enviarCorreoSeries);
 
-// Ruta raíz para verificar si el servidor está vivo
+// 🔌 Rutas de la API
+app.use("/api", enviarCorreoSeries);
+app.use("/api", utilsSeriesReporteClaro);
+
+// 🧪 Ruta raíz para prueba rápida
 app.get("/", (req, res) => {
   res.send("✅ API Notificador-Series activa");
 });
 
-// Puerto para Render
+// 🚀 Puerto de despliegue
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`📡 Servidor corriendo en puerto ${PORT}`);
