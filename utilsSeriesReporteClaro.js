@@ -22,7 +22,7 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
 
     const htmlTable = `
   <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-        Revisión al ${new Date().toLocaleDateString("es-PE")}
+      📅 Revisión al ${new Date().toLocaleDateString("es-PE")
         </p>
   <table border="1" cellpadding="6" cellspacing="0"
         style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
@@ -65,7 +65,6 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
       from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
       to: [
         "guardias@hitss.com",
-        "samuelguardiabautista@gmail.com",
       ],
       subject: "Resumen de estados de Conciliación de Inventario",
       html: htmlTable,
