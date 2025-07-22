@@ -20,43 +20,43 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
 
     filas.sort((a, b) => b.total - a.total);
 
-    const htmlTable = 
-      <p>Revisión al ${new Date().toLocaleDateString("es-PE")}</p>
-      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Arial;">
-        <thead style="background:#f0f0f0;">
-          <tr>
-            <th>EMPRESA</th>
-            <th>CONCILIADO</th>
-            <th>EN REVISIÓN</th>
-            <th>PENDIENTE</th>
-            <th><strong>TOTAL</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${filas
-            .map(
-              (row) => 
-            <tr>
-              <td><strong>${row.empresa}</strong></td>
-              <td>S/ ${row.conc.toLocaleString("es-PE", {
-                minimumFractionDigits: 2,
-              })}</td>
-              <td>S/ ${row.rev.toLocaleString("es-PE", {
-                minimumFractionDigits: 2,
-              })}</td>
-              <td>S/ ${row.pend.toLocaleString("es-PE", {
-                minimumFractionDigits: 2,
-              })}</td>
-              <td><strong>S/ ${row.total.toLocaleString("es-PE", {
-                minimumFractionDigits: 2,
-              })}</strong></td>
-            </tr>
-          
-            )
-            .join("")}
-        </tbody>
-      </table>
-    ;
+    const htmlTable = `
+  <p>Revisión al ${new Date().toLocaleDateString("es-PE")}</p>
+  <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Arial;">
+    <thead style="background:#f0f0f0;">
+      <tr>
+        <th>EMPRESA</th>
+        <th>CONCILIADO</th>
+        <th>EN REVISIÓN</th>
+        <th>PENDIENTE</th>
+        <th><strong>TOTAL</strong></th>
+      </tr>
+    </thead>
+    <tbody>
+      ${filas
+        .map(
+          (row) => `
+        <tr>
+          <td><strong>${row.empresa}</strong></td>
+          <td>S/ ${row.conc.toLocaleString("es-PE", {
+            minimumFractionDigits: 2,
+          })}</td>
+          <td>S/ ${row.rev.toLocaleString("es-PE", {
+            minimumFractionDigits: 2,
+          })}</td>
+          <td>S/ ${row.pend.toLocaleString("es-PE", {
+            minimumFractionDigits: 2,
+          })}</td>
+          <td><strong>S/ ${row.total.toLocaleString("es-PE", {
+            minimumFractionDigits: 2,
+          })}</strong></td>
+        </tr>
+      `
+        )
+        .join("")}
+    </tbody>
+  </table>
+`;
 
    await resend.emails.send({
       from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
