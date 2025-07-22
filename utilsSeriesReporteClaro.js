@@ -111,7 +111,7 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
     ];
 
     await resend.emails.send({
-      from: "Resumen Series <notificaciones@clarocorp.com>",
+      from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
       to: destinatarios,
       subject: "Resumen de estados de Conciliación de Inventario",
       html: htmlTable,
