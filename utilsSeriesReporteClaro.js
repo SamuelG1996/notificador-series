@@ -21,11 +21,11 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
     filas.sort((a, b) => b.total - a.total);
 
     const htmlTable = `
-  <p style="font-family: Calibri, sans-serif; font-size: 11px;">
+  <p style="font-family: Calibri, sans-serif; font-size: 13px;">
         Revisión al ${new Date().toLocaleDateString("es-PE")}
         </p>
-  <<table border="1" cellpadding="6" cellspacing="0"
-        style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 12px;">
+  <table border="1" cellpadding="6" cellspacing="0"
+        style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
     <thead style="background:#f0f0f0;">
       <tr>
         <th>EMPRESA</th>
