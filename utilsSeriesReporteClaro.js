@@ -13,7 +13,7 @@ const supabase = createClient(
 const resend = new Resend("re_dHbT7BFx_LTwQP6eqY86nGCY29NPTGYJk");
 
 // 📩 Ruta POST
-router.post("/api/utilsSeriesReporteClaro", async (req, res) => {
+router.post("/utilsSeriesReporteClaro", async (req, res) => {
   try {
     const { data: series, error } = await supabase
       .from("series_contrata")
