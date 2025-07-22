@@ -20,12 +20,9 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
 
     filas.sort((a, b) => b.total - a.total);
 
-    const htmlTable = `
-        <p style="font-family: Calibri, sans-serif; font-size: 12px;">
-        Revisión al ${new Date().toLocaleDateString("es-PE")}
-        </p>
-        <table border="1" cellpadding="6" cellspacing="0"
-        style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 12px;">
+    const htmlTable = 
+      <p>Revisión al ${new Date().toLocaleDateString("es-PE")}</p>
+      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Arial;">
         <thead style="background:#f0f0f0;">
           <tr>
             <th>EMPRESA</th>
@@ -36,27 +33,31 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
           </tr>
         </thead>
         <tbody>
-   ${filas
-        .map((row) => {
-          const formatOrDash = (val) =>
-            val === 0
-              ? "-"
-              : "S/ " + val.toLocaleString("es-PE", { minimumFractionDigits: 2 });
+          ${filas
+            .map(
+              (row) => 
+            <tr>
+              <td><strong>${row.empresa}</strong></td>
+              <td>S/ ${row.conc.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</td>
+              <td>S/ ${row.rev.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</td>
+              <td>S/ ${row.pend.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</td>
+              <td><strong>S/ ${row.total.toLocaleString("es-PE", {
+                minimumFractionDigits: 2,
+              })}</strong></td>
+            </tr>
+          
+            )
+            .join("")}
+        </tbody>
+      </table>
+    ;
 
-          return `
-          <tr>
-            <td><strong>${row.empresa}</strong></td>
-            <td>${formatOrDash(row.conc)}</td>
-            <td>${formatOrDash(row.rev)}</td>
-            <td>${formatOrDash(row.pend)}</td>
-            <td><strong>${formatOrDash(row.total)}</strong></td>
-          </tr>
-        `;
-        })
-        .join("")}
-    </tbody>
-  </table>
-`;
    await resend.emails.send({
       from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
       to: [
