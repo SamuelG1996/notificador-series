@@ -22,7 +22,7 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
 
     const htmlTable = `
   <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-          📅 Revisión al ${new Date().toLocaleDateString("es-PE")}
+          📅 Estado de conciliación de inventario por contrata – Actualizado al ${new Date().toLocaleDateString("es-PE")}
         </p>
   <table border="1" cellpadding="6" cellspacing="0"
         style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
@@ -39,22 +39,13 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
       ${filas
         .map(
           (row) => `
-        <tr>
-          <td><strong>${row.empresa}</strong></td>
-          <td>S/ ${row.conc.toLocaleString("es-PE", {
-            minimumFractionDigits: 2,
-          })}</td>
-          <td>S/ ${row.rev.toLocaleString("es-PE", {
-            minimumFractionDigits: 2,
-          })}</td>
-          <td>S/ ${row.pend.toLocaleString("es-PE", {
-            minimumFractionDigits: 2,
-          })}</td>
-          <td><strong>S/ ${row.total.toLocaleString("es-PE", {
-            minimumFractionDigits: 2,
-          })}</strong></td>
-        </tr>
-      `
+      <tr>
+        <td><strong>${row.empresa}</strong></td>
+        <td>${row.conc ? `S/ ${row.conc.toLocaleString("es-PE", { minimumFractionDigits: 2 })}` : "-"}</td>
+        <td>${row.rev ? `S/ ${row.rev.toLocaleString("es-PE", { minimumFractionDigits: 2 })}` : "-"}</td>
+        <td>${row.pend ? `S/ ${row.pend.toLocaleString("es-PE", { minimumFractionDigits: 2 })}` : "-"}</td>
+        <td><strong>${row.total ? `S/ ${row.total.toLocaleString("es-PE", { minimumFractionDigits: 2 })}` : "-"}</strong></td>
+      </tr>
         )
         .join("")}
     </tbody>
