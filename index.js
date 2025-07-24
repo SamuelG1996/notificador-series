@@ -15,6 +15,11 @@ app.use(express.json());
 app.use("/api", enviarCorreoSeries);
 app.use("/api", utilsSeriesReporteClaro);
 
+// ✅ Endpoint para "despertar" el servidor (cronjob)
+app.get("/ping", (req, res) => {
+  res.status(200).send("pong");
+});
+
 // 🧪 Ruta raíz para prueba rápida
 app.get("/", (req, res) => {
   res.send("✅ API Notificador-Series activa");
