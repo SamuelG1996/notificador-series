@@ -66,7 +66,7 @@ function buildHtmlTable(summary) {
 }
 
 // --- Endpoint ---
-router.get("/utilsBacklogDigest", async (req, res) => {
+router.get("/utilsBacklogReporte", async (req, res) => {
   try {
     // Códigos dinámicos desde query o variable de entorno
     const codes = req.query.codes
@@ -115,7 +115,7 @@ for (const email of destinatarios) {
 
     res.status(200).json({ message: "Correo de backlog enviado correctamente." });
   } catch (err) {
-    console.error("Error al enviar backlog digest:", err);
+    console.error("Error al enviar reporte backlog:", err);
     res.status(500).json({ error: err.message });
   }
 });
