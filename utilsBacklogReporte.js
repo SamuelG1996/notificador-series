@@ -92,13 +92,19 @@ router.get("/utilsBacklogDigest", async (req, res) => {
 
     const html = buildHtmlTable(summary);
 
-    // Envío del correo
-    await resend.emails.send({
-      from: process.env.EMAIL_FROM || "Backlog Notifier <notifier@tudominio.com>",
-      to: (process.env.EMAIL_TO || "").split(",").map(e => e.trim()),
-      subject: "Resumen Backlog por Estado",
-      html,
-    });
+
+    const destinatarios = [
+  "guardias@hitss.com",
+];
+
+for (const email of destinatarios) {
+  await resend.emails.send({
+    from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
+    to: email, // Aquí uno por uno
+    subject: "Resumen de estados de Backlog",
+    html,
+  });
+}
 
     res.status(200).json({ message: "Correo de backlog enviado correctamente." });
   } catch (err) {
