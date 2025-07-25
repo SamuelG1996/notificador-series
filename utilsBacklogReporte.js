@@ -33,33 +33,36 @@ const NOMBRES_CODIGOS = {
 
 function buildHtmlTable(summary) {
   const rows = Object.entries(summary)
-    .map(
-      ([codigo, s]) => `
+    .map(([codigo, s]) => {
+      const subtotal = s.vencido + s.por_vencer + s.en_plazo;
+      return `
         <tr>
           <td>${NOMBRES_CODIGOS[codigo] || codigo}</td>
           <td style="text-align:center;">${s.vencido}</td>
           <td style="text-align:center;">${s.por_vencer}</td>
           <td style="text-align:center;">${s.en_plazo}</td>
-        </tr>`
-    )
+          <td style="text-align:center; font-weight: bold;">${subtotal}</td>
+        </tr>`;
+    })
     .join("");
 
   return `
     <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-      📅 Resumen Backlog por estado – Actualizado al ${new Date().toLocaleDateString("es-PE")}
+    📅 Resumen de cantidades pendientes en Backlog por equipos recurrentes – Actualizado al ${new Date().toLocaleDateString("es-PE")}
     </p>
     <table border="1" cellpadding="6" cellspacing="0"
           style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
       <thead style="background:#f0f0f0;">
         <tr>
-          <th>Producto</th>
+          <th>PRODUCTO</th>
           <th>VENCIDO</th>
           <th>POR VENCER</th>
           <th>EN PLAZO</th>
+          <th>TOTAL</th>
         </tr>
       </thead>
       <tbody>
-        ${rows || `<tr><td colspan="4" style="text-align:center;">Sin datos</td></tr>`}
+        ${rows || `<tr><td colspan="5" style="text-align:center;">Sin datos</td></tr>`}
       </tbody>
     </table>
   `;
@@ -102,13 +105,16 @@ router.get("/utilsBacklogReporte", async (req, res) => {
 
     const destinatarios = [
   "guardias@hitss.com",
+  "adelzo.hitss@claro.com.pe",
+  "flor.delacruz@claro.com.pe",
+  "claudia.henriquez@claro.com.pe",
 ];
 
 for (const email of destinatarios) {
   await resend.emails.send({
     from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
     to: email, // Aquí uno por uno
-    subject: "Resumen de estados de Backlog",
+    subject: "Resumen de pendientes en Backlog",
     html,
   });
 }
