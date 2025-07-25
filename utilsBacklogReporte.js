@@ -24,12 +24,19 @@ const diffInDays = (fecha) => Math.ceil((startOfDay(new Date(fecha)) - startOfDa
 const clasificar = (diff) =>
   diff <= 0 ? "vencido" : diff <= DAYS_POR_VENCER ? "por_vencer" : "en_plazo";
 
+const NOMBRES_CODIGOS = {
+  "4072977": "Router Huawei",
+  "4073823": "ONT Huawei",
+  "4070801": "Cisco C8300",
+  "4055536": "Kit Microondas",
+};
+
 function buildHtmlTable(summary) {
   const rows = Object.entries(summary)
     .map(
       ([codigo, s]) => `
         <tr>
-          <td>${codigo}</td>
+          <td>${NOMBRES_CODIGOS[codigo] || codigo}</td>
           <td style="text-align:center;">${s.vencido}</td>
           <td style="text-align:center;">${s.por_vencer}</td>
           <td style="text-align:center;">${s.en_plazo}</td>
@@ -45,7 +52,7 @@ function buildHtmlTable(summary) {
           style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
       <thead style="background:#f0f0f0;">
         <tr>
-          <th>Código</th>
+          <th>Producto</th>
           <th>VENCIDO</th>
           <th>POR VENCER</th>
           <th>EN PLAZO</th>
