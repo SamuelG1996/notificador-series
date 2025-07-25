@@ -42,13 +42,14 @@ function buildHtmlTable(summary) {
           <td style="text-align:center;">${s.por_vencer}</td>
           <td style="text-align:center;">${s.en_plazo}</td>
           <td style="text-align:center; font-weight: bold;">${subtotal}</td>
-        </tr>`;
+        </tr>
+      `;
     })
     .join("");
 
   return `
     <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-    📅 Resumen de cantidades pendientes en Backlog por equipos recurrentes – Actualizado al ${new Date().toLocaleDateString("es-PE")}
+      📅 Resumen de cantidades pendientes en Backlog por equipos recurrentes – Actualizado al ${new Date().toLocaleDateString("es-PE")}
     </p>
     <table border="1" cellpadding="6" cellspacing="0"
           style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
@@ -103,21 +104,13 @@ router.get("/utilsBacklogReporte", async (req, res) => {
     const html = buildHtmlTable(summary);
 
 
-    const destinatarios = [
-  "guardias@hitss.com",
-  "adelzo.hitss@claro.com.pe",
-  "flor.delacruz@claro.com.pe",
-  "claudia.henriquez@claro.com.pe",
-];
-
-for (const email of destinatarios) {
-  await resend.emails.send({
-    from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
-    to: email, // Aquí uno por uno
-    subject: "Resumen de pendientes en Backlog",
-    html,
-  });
-}
+await resend.emails.send({
+  from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
+  to: "flor.delacruz@claro.com.pe", // el destinatario principal
+  cc: ["guardias@hitss.com", "adelzo.hitss@claro.com.pe", "claudia.henriquez@claro.com.pe"], // los demás en copia
+  subject: "Resumen de pendientes en Backlog",
+  html,
+});
 
     res.status(200).json({ message: "Correo de backlog enviado correctamente." });
   } catch (err) {
