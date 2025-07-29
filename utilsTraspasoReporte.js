@@ -30,8 +30,18 @@ function buildHtmlResumenTraspasos(summary) {
 
   return `
     <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-      📋 Resumen de solicitudes de traspaso pendientes – Actualizado al ${new Date().toLocaleDateString("es-PE")}
+      Estimado equipo,
     </p>
+    <p style="font-family: Calibri, sans-serif; font-size: 13px;">
+       A continuación, les compartimos el resumen actualizado del estado de las <strong>solicitudes de traspaso pendientes</strong> que las contratistas han registrado en el Portal de Inventario.
+        Este reporte incluye únicamente las solicitudes que se encuentran en estado <strong>"Pendiente"</strong>, <strong>"Observado"</strong> o <strong>"En proceso"</strong>. 
+        Las solicitudes que ya fueron <strong>atendidas o anuladas</strong> no se incluyen en la siguiente tabla.
+      </p>
+  
+      <p style="font-family: Calibri, sans-serif; font-size: 13px;margin-bottom: 20px;">
+        Este reporte ha sido actualizado al día <strong>${new Date().toLocaleDateString("es-PE")}</strong>
+      </p>
+      
     <table border="1" cellpadding="6" cellspacing="0"
           style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
       <thead style="background:#f0f0f0;">
@@ -88,7 +98,7 @@ router.get("/utilsTraspasoReporte", async (req, res) => {
       from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
       to: "guardias@hitss.com",
       cc: ["claudia.henriquez@claro.com.pe"],
-      subject: "📋 Resumen de solicitudes de traspaso pendientes",
+      subject: "📅 Resumen de solicitudes de traspasos pendientes",
       html,
     });
 
