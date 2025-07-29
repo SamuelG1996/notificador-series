@@ -52,7 +52,7 @@ function buildHtmlTable(summary) {
       <strong>Estimado equipo:</strong>
     </p>
     <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-  A continuación, les compartimos el resumen actualizado de las <strong>cantidades de equipos pendientes</strong> según el estudio de factibilidad, destinados a ser utilizados en SOTs que aún no han sido atendidas (<strong>Backlog</strong>).
+  A continuación, les compartimos el resumen actualizado de los <strong>equipos pendientes</strong> según el estudio de factibilidad, destinados a ser utilizados en SOTs que aún no han sido atendidas (<strong>Backlog</strong>).
       </p>
   <p style="font-family: Calibri, sans-serif; font-size: 13px;">
   Este reporte muestra las cantidades clasificadas en tres categorías:
