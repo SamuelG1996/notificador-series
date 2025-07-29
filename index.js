@@ -4,9 +4,10 @@ const cors = require("cors");
 const app = express();
 
 // 👇 Tus dos módulos de rutas
-const enviarCorreoSeries = require("./EnviarCorreoSeries"); // maneja /api/utilsSeries
-const utilsSeriesReporteClaro = require("./utilsSeriesReporteClaro"); // maneja /api/utilsSeriesReporteClaro
+const enviarCorreoSeries = require("./EnviarCorreoSeries");
+const utilsSeriesReporteClaro = require("./utilsSeriesReporteClaro");
 const utilsBacklogReporte = require("./utilsBacklogReporte");
+const utilsTraspasoReporte = require("./utilsTraspasoReporte");
 
 // 🛡️ Middlewares
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/api", enviarCorreoSeries);
 app.use("/api", utilsSeriesReporteClaro);
 app.use("/api", utilsBacklogReporte);
+app.use("/api", utilsTraspasoReporte);
 
 // ✅ Endpoint para "despertar" el servidor (cronjob)
 app.get("/ping", (req, res) => {
