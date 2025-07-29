@@ -86,8 +86,8 @@ router.get("/utilsTraspasoReporte", async (req, res) => {
 
     await resend.emails.send({
       from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
-      to: "soporte@gmail.com",
-      cc: ["prueba@hitss.com"],
+      to: "guardias@hitss.com",
+      cc: ["claudia.henriquez@claro.com.pe"],
       subject: "📋 Resumen de solicitudes de traspaso pendientes",
       html,
     });
