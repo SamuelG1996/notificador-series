@@ -30,7 +30,7 @@ function buildHtmlResumenTraspasos(summary) {
 
   return `
     <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-      Estimado equipo,
+      <strong>Estimado equipo:</strong>
     </p>
     <p style="font-family: Calibri, sans-serif; font-size: 13px;">
        A continuación, les compartimos el resumen actualizado del estado de las <strong>solicitudes de traspaso pendientes</strong> que las contratistas han registrado en el Portal de Inventario.
