@@ -48,9 +48,23 @@ function buildHtmlTable(summary) {
     .join("");
 
   return `
-    <p style="font-family: Calibri, sans-serif; font-size: 13px;">
-      📅 Resumen de cantidades pendientes en Backlog por equipos recurrentes – Actualizado al ${new Date().toLocaleDateString("es-PE")}
+     <p style="font-family: Calibri, sans-serif; font-size: 13px;">
+      <strong>Estimado equipo:</strong>
     </p>
+    <p style="font-family: Calibri, sans-serif; font-size: 13px;">
+  A continuación, les compartimos el resumen actualizado de las <strong>cantidades de equipos pendientes</strong> según el estudio de factibilidad, destinados a ser utilizados en SOTs que aún no han sido atendidas (<strong>Backlog</strong>).
+      </p>
+  <p style="font-family: Calibri, sans-serif; font-size: 13px;">
+  Este reporte muestra las cantidades clasificadas en tres categorías:
+  <ul style="margin-top: 5px; font-size: 13px; font-family: Calibri, sans-serif;">
+    <li><strong>Vencidas</strong>: fecha de compromiso anterior a la fecha actual.</li>
+    <li><strong>Por vencer</strong>: fecha de compromiso dentro de los próximos 60 días.</li>
+    <li><strong>En plazo</strong>: fecha de compromiso posterior a los 60 días desde hoy.</li>
+  </ul>
+</p>
+      <p style="font-family: Calibri, sans-serif; font-size: 13px;margin-bottom: 20px;">
+        Este reporte ha sido actualizado al día <strong>${new Date().toLocaleDateString("es-PE")}</strong>
+      </p>
     <table border="1" cellpadding="6" cellspacing="0"
           style="border-collapse: collapse; font-family: Calibri, sans-serif; font-size: 13px;">
       <thead style="background:#f0f0f0;">
@@ -106,9 +120,8 @@ router.get("/utilsBacklogReporte", async (req, res) => {
 
 await resend.emails.send({
   from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
-  to: "flor.delacruz@claro.com.pe", // el destinatario principal
-  cc: ["guardias@hitss.com", "adelzo.hitss@claro.com.pe", "claudia.henriquez@claro.com.pe"], // los demás en copia
-  subject: "Resumen de pendientes en Backlog",
+  to: "guardias@hitss.com",
+  subject: "📌 Resumen de Pendientes en Backlog Recurrente",
   html,
 });
 
