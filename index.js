@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 // 👇 Tus dos módulos de rutas
-const enviarCorreoSeries = require("./EnviarCorreoSeries");
+const enviarCorreoSeries = require("./utilsSeries");
 const utilsSeriesReporteClaro = require("./utilsSeriesReporteClaro");
 const utilsBacklogReporte = require("./utilsBacklogReporte");
 const utilsTraspasoReporte = require("./utilsTraspasoReporte");
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // 🔌 Rutas de la API
-app.use("/api", enviarCorreoSeries);
+app.use("/api", utilsSeries);
 app.use("/api", utilsSeriesReporteClaro);
 app.use("/api", utilsBacklogReporte);
 app.use("/api", utilsTraspasoReporte);
