@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 // 👇 Tus dos módulos de rutas
-const enviarCorreoSeries = require("./utilsSeries");
+const utilsSeries = require("./utilsSeries");
 const utilsSeriesReporteClaro = require("./utilsSeriesReporteClaro");
 const utilsBacklogReporte = require("./utilsBacklogReporte");
 const utilsTraspasoReporte = require("./utilsTraspasoReporte");
