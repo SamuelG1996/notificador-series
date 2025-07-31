@@ -71,7 +71,7 @@ function buildHtmlSeries(empresa, registros) {
 }
 
 // 📤 Ruta GET para envío manual o cron
-router.get("/utilsSeriesCorreo", async (req, res) => {
+router.get("/utilsSeries", async (req, res) => {
   try {
     console.log("📥 Iniciando envío de resumen de series...");
 
