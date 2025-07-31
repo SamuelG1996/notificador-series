@@ -99,7 +99,7 @@ router.get("/utilsBacklogReporte", async (req, res) => {
     const { data, error } = await supabase
       .from("backlog_compras")
       .select("nuevo_codigo, fecha_compromiso")
-      .in("nuevo_codigo", codes);
+      .in("nuevo_codigo", codes)
       .eq("estado_soporte", "PENDIENTE"); 
     
     if (error) throw error;
