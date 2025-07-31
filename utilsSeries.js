@@ -50,15 +50,17 @@ function buildHtmlSeries(empresa, registros) {
       A continuación, les compartimos el resumen actualizado del estado de sus equipos registrados en el portal.
     </p>
     <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; font-family: Arial, sans-serif; text-align: center;">
-    <thead>
-      <tr>
-        <th rowspan="2">Estado Contrata</th>
-        <th colspan="${columnas.length}">Estado Soporte</th>
-      </tr>
-      <tr>
-        ${columnas.map(e => `<th>${e}</th>`).join("")}
-      </tr>
-    </thead>
+     html += `
+      <thead>
+        <tr>
+          <th rowspan="2">Estado Contrata</th>
+          <th colspan="${columnas.length}">Estado Soporte</th>
+        </tr>
+        <tr>
+          ${columnas.map(e => `<th>${e}</th>`).join("")}
+        </tr>
+      </thead>
+    `;
 
   for (const estadoC of Object.keys(tabla)) {
     html += `<tr><td><b>${estadoC}</b></td>`;
