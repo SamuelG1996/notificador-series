@@ -121,8 +121,7 @@ router.get("/utilsBacklogReporte", async (req, res) => {
 
 await resend.emails.send({
   from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
-  to: "flor.delacruz@claro.com.pe",
-  cc: ["guardias@hitss.com", "adelzo.hitss@claro.com.pe", "claudia.henriquez@claro.com.pe"],
+  to: "guardias@hitss.com",
   subject: "📌 Resumen de Pendientes en Backlog Recurrente",
   html,
 });
