@@ -18,7 +18,8 @@ function buildHtmlSeries(empresa, registros) {
 
   for (const item of registros) {
     const estadoContrata = (item.estado_contrata || "SIN ESTADO").trim().toUpperCase();
-    const estadoSoporte = (item.estado_soporte || "").trim().toUpperCase() || "PENDIENTE";
+    let estadoSoporte = (item.estado_soporte || "").trim().toUpperCase();
+    if (!estadoSoporte || estadoSoporte === "-") estadoSoporte = "PENDIENTE";
 
     if (!tabla[estadoContrata]) tabla[estadoContrata] = {};
     if (!tabla[estadoContrata][estadoSoporte]) tabla[estadoContrata][estadoSoporte] = 0;
