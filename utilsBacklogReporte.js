@@ -100,7 +100,8 @@ router.get("/utilsBacklogReporte", async (req, res) => {
       .from("backlog_compras")
       .select("nuevo_codigo, fecha_compromiso")
       .in("nuevo_codigo", codes);
-
+      .eq("estado_soporte", "PENDIENTE"); 
+    
     if (error) throw error;
 
     // Resumen inicial
