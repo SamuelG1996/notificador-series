@@ -32,6 +32,8 @@ function buildHtmlSeries(empresa, registros) {
   }
   const columnas = [...soporteEstados];
 
+  const fecha = new Date().toLocaleDateString("es-PE", { timeZone: "America/Lima" });
+
   // Totales por columna
   const totales = {};
   for (const estadoS of columnas) totales[estadoS] = 0;
@@ -64,7 +66,7 @@ function buildHtmlSeries(empresa, registros) {
     html += `<td style="text-align:center; font-weight:bold;">${totales[estadoS] > 0 ? totales[estadoS] : "-"}</td>`;
   }
   html += `</tr></table><br>
-    <p>📅 Revisión al ${new Date().toLocaleDateString("es-PE")}</p>
+    <p>📅 Revisión al ${fecha}</p>
     <p>👉 Por favor, revisa el portal para más información. Es importante que todos los registros cuenten con un estado.</p>
   `;
 
