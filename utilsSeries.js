@@ -122,6 +122,10 @@ router.get("/utilsSeries", async (req, res) => {
       agrupados[empresa].push(item);
     }
 
+    function esperar(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
     // 📧 Enviar correos por empresa
     for (const [empresa, registrosEmpresa] of Object.entries(agrupados)) {
       if (registrosEmpresa.length === 0) continue;
@@ -147,22 +151,27 @@ router.get("/utilsSeries", async (req, res) => {
 
       console.log(`📨 Enviando resumen a ${empresa} (${correos.join(", ")})...`);
 
-      await resend.emails.send({
-        from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
-        to: correos,
-        cc: ["chancahuanaa@hitss.com", "guardias@hitss.com"],
-        subject: `📊 Resumen de estados de materiales seriados - ${empresa}`,
-        html,
-      });
+      try {
+    await resend.emails.send({
+      from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
+      to: correos,
+      cc: ["chancahuanaa@hitss.com", "guardias@hitss.com"],
+      subject: `📊 Resumen de estados de materiales seriados - ${empresa}`,
+      html,
+    });
 
-      console.log(`✅ Correo enviado correctamente a ${empresa}`);
-    }
+    console.log(`✅ Correo enviado correctamente a ${empresa}`);
+  } catch (err) {
+    console.error(`❌ Error al enviar a ${empresa}:`, err.message);
+  }
 
-    res.status(200).json({ message: "📬 Correos enviados correctamente." });
+  // 👇 Este delay debe ir aquí
+  await esperar(1000);
+}
+   res.status(200).json({ message: "📬 Correos enviados correctamente." });
   } catch (err) {
     console.error("❌ Error al enviar correos:", err.message);
     res.status(500).json({ error: "Error al enviar correos." });
   }
 });
-
 module.exports = router;
