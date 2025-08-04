@@ -155,7 +155,7 @@ router.get("/utilsSeries", async (req, res) => {
     await resend.emails.send({
       from: "Soporte Portal Inventario <soporte@portalgestioninventario.com>",
       to: correos,
-      cc: ["chancahuanaa@hitss.com", "guardias@hitss.com"],
+      cc: ["chancahuanaa@hitss.com", "guardias@hitss.com", "flor.delacruz@claro.com.pe"],
       subject: `📊 Resumen de estados de materiales seriados - ${empresa}`,
       html,
     });
@@ -175,3 +175,4 @@ router.get("/utilsSeries", async (req, res) => {
   }
 });
 module.exports = router;
+
