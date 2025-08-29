@@ -58,6 +58,7 @@ router.post("/utilsSeriesReporteClaro", async (req, res) => {
       to: [
         "guardias@hitss.com",
         "claudia.henriquez@claro.com.pe",
+        "flor.delacruz@claro.com.pe",
         "chancahuanaa@globalhitss.com",
       ],
       subject: "Resumen de estados de Conciliación de Inventario",
